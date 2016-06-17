@@ -3,16 +3,16 @@
 StackDumper::StackDumper() {
 #ifdef _WIN32
     enum { MAX_NAME_LENGTH = 256 };  // max length of symbols' name.
-	// Initialize PSYMBOL_INFO structure.  
-	// Allocate a properly-sized block.  
+    // Initialize PSYMBOL_INFO structure.  
+    // Allocate a properly-sized block.  
     symbol_ = (PSYMBOL_INFO)malloc(sizeof(SYMBOL_INFO)+(MAX_NAME_LENGTH - 1) * sizeof(TCHAR));
     memset(symbol_, 0, sizeof(SYMBOL_INFO)+(MAX_NAME_LENGTH - 1) * sizeof(TCHAR));
     symbol_->SizeOfStruct = sizeof(SYMBOL_INFO);  // SizeOfStruct *MUST BE* set to sizeof(SYMBOL_INFO).  
     symbol_->MaxNameLen = MAX_NAME_LENGTH;
-	// Initialize IMAGEHLP_LINE64 structure.  
+    // Initialize IMAGEHLP_LINE64 structure.  
     memset(&source_info_, 0, sizeof(IMAGEHLP_LINE64));
     source_info_.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
-	// Initialize STACKFRAME64 structure.  
+    // Initialize STACKFRAME64 structure.  
     RtlCaptureContext(&context_);  // Get context.  
     memset(&stackframe_, 0, sizeof(STACKFRAME64));
     stackframe_.AddrPC.Offset = context_.Eip;  // Fill in register addresses (EIP, ESP, EBP).  
@@ -24,20 +24,20 @@ StackDumper::StackDumper() {
     stack_info_str_stream_.str("");
     process_ = GetCurrentProcess();  // Get current process & thread.  
     thread_ = GetCurrentThread();
-	// Initialize dbghelp library.  
+    // Initialize dbghelp library.  
     if (!SymInitialize(process_, NULL, TRUE)) {
         stack_info_str_stream_ << "Initialize dbghelp library ERROR!\n";
 	}
-#endif  //_WIN32
+#endif  // _WIN32
 }
 
 StackDumper::~StackDumper() {
-	Destory();
+    Destory();
 }
 
 void StackDumper::Destory() {
-	SymCleanup(process_);  // Clean up and exit.  
-	free(symbol_);
+    SymCleanup(process_);  // Clean up and exit.  
+    free(symbol_);
     stack_info_str_stream_ << "StackDumper is cleaned up!\n";
 }
 
@@ -63,6 +63,6 @@ std::string StackDumper::DumpStack() {
 			}
 		}
 	}
-#endif  //_WIN32
+#endif  // _WIN32
     return stack_info_str_stream_.str();
 }

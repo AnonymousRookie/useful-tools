@@ -7,7 +7,7 @@
 #include <string>
 #include <sstream>
 #pragma comment (lib, "dbghelp.lib")  
-#endif  //_WIN32
+#endif  // _WIN32
 
 
 class StackDumper {
@@ -22,7 +22,7 @@ class StackDumper {
 
  private:
 #ifdef _WIN32
-    UINT max_name_length_;			    // Max length of symbols' name.
+    UINT max_name_length_;              // Max length of symbols' name.
     CONTEXT context_;				    // Store register addresses.
     STACKFRAME64 stackframe_;           // Call stack.
     HANDLE process_, thread_;           // Handle to current process & thread.
@@ -30,7 +30,7 @@ class StackDumper {
     IMAGEHLP_LINE64 source_info_;       // Source information (file name & line number)
     DWORD displacement_;				// Source line displacement.
 #endif  // _WIN32
-	std::ostringstream stack_info_str_stream_;
+    std::ostringstream stack_info_str_stream_;
 };
 
 
