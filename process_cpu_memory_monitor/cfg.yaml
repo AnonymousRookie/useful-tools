@@ -1,0 +1,6 @@
+process : 
+  - a.exe
+  - b.exe
+  - c.exe
+
+interval : 5
