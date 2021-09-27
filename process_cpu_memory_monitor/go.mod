@@ -1,4 +1,4 @@
-module zmonitor
+module zpsutil
 
 go 1.15
 
